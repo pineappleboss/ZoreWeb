@@ -15,16 +15,28 @@ import './index.less'
 import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
+// import { setToken, getToken } from '@/libs/util'
 import 'v-org-tree/dist/v-org-tree.css'
 // 实际打包时应该不引入mock
 /* eslint-disable */
-if (process.env.NODE_ENV !== 'production') require('@/mock')
+// if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
 Vue.use(TreeTable)
 Vue.use(VOrgTree)
+
+
+
+// axios.interceptors.request.use(function (config) {
+//   // 在发送请求之前做些什么
+//   XMLHttpRequest.setRequestHeader(headerTokenKey, getToken());
+//   return config;
+// }, function (error) {
+//   // 对请求错误做些什么
+//   return Promise.reject(error);
+// });
 //创建一axios的实例，并创建全局变量
 Vue.prototype.$axios = axios.create({
   baseURL:'http://localhost:8088'
@@ -36,7 +48,7 @@ installPlugin(Vue)
 /**
  * @description 生产环境关掉提示
  */
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 /**
  * @description 全局注册应用配置
  */

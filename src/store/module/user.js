@@ -75,14 +75,12 @@ export default {
   actions: {
     // 登录
     handleLogin ({ commit }, { userName, password }) {
-      userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({
           userName,
           password
         }).then(res => {
-         
-          const data = res.data
+          const data = res.data.data
           commit('setToken', data.token)
           resolve()
         }).catch(err => {
@@ -108,10 +106,11 @@ export default {
     },
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {console.log(state)
         try {
           getUserInfo(state.token).then(res => {
-            const data = res.data
+            const data = res.data.data
+            console.log(data)
             commit('setAvatar', data.avatar)
             commit('setUserName', data.name)
             commit('setUserId', data.user_id)

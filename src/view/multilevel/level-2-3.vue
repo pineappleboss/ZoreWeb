@@ -38,6 +38,7 @@
 </template>
 <script>
 import AuthTree from "@/components/authTree/authTree.vue"
+import { setToken, getToken } from '@/libs/util'
 export default {
   name: "level_2_3",
   components:{AuthTree},
@@ -146,7 +147,7 @@ export default {
     },
     //加载表格数据
     loadTableData(){
-      this.$axios("/api/user","get").then((resp)=>{
+      this.$axios({url:"/api/user",method:"get",headers:{Authorization:getToken()}}).then((resp)=>{
         if(resp.data.statusCode===200){
           this.tableData=resp.data.data;
           }else{
