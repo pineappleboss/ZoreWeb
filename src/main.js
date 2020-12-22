@@ -29,18 +29,19 @@ Vue.use(VOrgTree)
 
 
 
-// axios.interceptors.request.use(function (config) {
-//   // 在发送请求之前做些什么
-//   XMLHttpRequest.setRequestHeader(headerTokenKey, getToken());
-//   return config;
-// }, function (error) {
-//   // 对请求错误做些什么
-//   return Promise.reject(error);
-// });
+
 //创建一axios的实例，并创建全局变量
 Vue.prototype.$axios = axios.create({
   baseURL:'http://localhost:8088'
-})
+}),
+axios.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  XMLHttpRequest.setRequestHeader(Authorization, getToken());
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
 /**
  * @description 注册admin内置插件
  */

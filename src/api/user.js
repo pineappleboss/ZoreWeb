@@ -1,5 +1,5 @@
 import axios from '@/libs/api.request'
-
+import { setToken, getToken } from "@/libs/util";
 export const login = ({ userName, password }) => {
 
   const data = {
@@ -14,12 +14,10 @@ export const login = ({ userName, password }) => {
   })
 }
 
-export const getUserInfo = (token) => {
+export const getUserInfo = () => {
   return axios.request({
+    headers: { Authorization: getToken() },
     url: 'get_info',
-    params: {
-      token
-    },
     method: 'get'
   })
 }
