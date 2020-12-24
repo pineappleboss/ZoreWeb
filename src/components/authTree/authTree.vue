@@ -1,63 +1,25 @@
 <template>
-  <Tree :data="treeData" show-checkbox></Tree>
+<div>
+<Tree :data="treeData" show-checkbox ref="treeData"></Tree>
+</div>
+  
 </template>
 
 <script>
 export default {
+ props:{
+     treeData:Array
+ },
   data() {
     return {
-      treeData: [
-        {
-          title: "parent 1",
-          expand: true,
-          children: [
-            {
-              title: "parent 1-1",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-1-1",
-                },
-                {
-                  title: "leaf 1-1-2",
-                },
-              ],
-            },
-            {
-              title: "parent 1-2",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-2-1",
-                },
-                {
-                  title: "leaf 1-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      checkData:[],
     };
   },
   methods:{
-    loadDatas() {
-      this.$axios("/api/menu", "get").then(
-        (resp) => {
-          if (resp.data.statusCode === 200) {
-            this.data = this.forMart(resp.data.data);
-          } else {
-            this.$Message.error("数据初始化失败");
-          }
-        },
-        () => {}
-      );
+    getData(){
+        return this.$refs.treeData.getCheckedNodes()
     },
-    forMart(data) {},
-  },
-  created() {
-    this.loadDatas();
-  },
+  }
 };
 </script>
 

@@ -7,7 +7,7 @@
         <TabPane label="基本信息">
           <Form :model="baseMessage" label-position="left" :label-width="100">
             <FormItem label="用户名">
-              <Input v-model="baseMessage.username"></Input>
+              <Input v-model="baseMessage.userName"></Input>
             </FormItem>
             <FormItem label="姓名">
               <Input v-model="baseMessage.name"></Input>
@@ -26,12 +26,13 @@
         <TabPane label="用户角色">
           <Checkbox
           <CheckboxGroup v-model="userRole" @on-change="checkAlluserRole">
-              <Checkbox v-for='item in userRoles' :label='item.name' :key='item.id'></Checkbox>
+              <Checkbox v-for='item in userRoles' :label='item.id' :key='item.id'>
+                {{item.name}}
+              </Checkbox>
           </CheckboxGroup>
         </TabPane>  
         <TabPane label="用户权限">
-          <AuthTree>
-
+          <AuthTree ref="authTree" :treeData='sonTreeData'>
           </AuthTree>
         </TabPane>
       </Tabs>
@@ -50,19 +51,22 @@ export default {
       pageSize: 10,
       total: 10,
       modalFlag: false,
+      treeData:[],
       userRoles:[],
       userRole:[],
+      sonTreeData:[],
       baseMessage: {
-        username: "",
+        userName: "",
         name: "",
         Email: "",
         password: "",
+        accesses:'',
         confirmpassword: "",
       },
       tableColumns: [
         {
           title: "用户名",
-          key: "username",
+          key: "userName",
         },
         {
           title: "姓名",
@@ -126,14 +130,26 @@ export default {
     },
     //取消时清空这些数据或恢复原来的状态
     cleanData() {
+      this.userRole = [];
       this.modalFlag = false;
     },
     missSubmit() {
       this.cleanData();
     },
+    //目录树处理
+    checkoutTreeData(treeData){
+    this.baseMessage.access.push(treeData.url)
+    },
     submit() {
+      this.baseMessage.perssion = '';
+      let thisAccess = this.$refs.authTree.getData();
+      for(let i=0;i<thisAccess.length;i++){
+        
+        this.baseMessage.perssion = this.baseMessage.perssion===''?thisAccess[i].url:(this.baseMessage.perssion +','+thisAccess[i].url)
+      }
+      this.baseMessage.role=[];
       for(let i=0;i<this.userRole.length;i++){
-        // this.baseMessage.role.push();
+        this.baseMessage.role.push({'id':this.userRole[i]});
       }
       this.$axios({
         url: "/api/user",
@@ -143,7 +159,7 @@ export default {
       }).then(
         (resp) => {
           if (resp.data.statusCode === 200) {
-            this.$Message.error("用户信息修改成功");
+            this.$Message.success("用户信息修改成功");
           } else {
             this.$Message.error("用户信息修改失败");
           }
@@ -155,7 +171,6 @@ export default {
     //获取此行的数据
     editUser(id) {
       this.getUserMessage(id);
-      this.getUserRoles(id);
     },
     
     //加载表格数据
@@ -185,6 +200,13 @@ export default {
         (resp) => {
           if (resp.data.statusCode === 200) {
             this.baseMessage = resp.data.data;
+            this.getUserRoles(id)
+            let role=this.baseMessage.role;
+            for(let i=0;i<role.length;i++){
+              this.userRole.push(role[i].id) ;
+            }
+            this.getPersission(id);
+
           } else {
             this.$Message.error("数据加载失败");
           }
@@ -208,10 +230,18 @@ export default {
         },
         () => {}
       );
-        let role=this.baseMessage.role;
-        for(let i=0;i<role.length;i++){
-          this.userRole.push(role[i].name) ;
-        }
+    },
+    //加载菜单权限控制
+    getPersission(id){
+      this.$axios( {
+        url:'/api/persission/'+id,
+        method:'get',
+        headers: { Authorization: getToken() }
+      }).then((resp)=>{
+        if(resp.data.statusCode === 200){
+          this.sonTreeData=resp.data.data        }
+      },
+      ()=>{})
     },
     checkAlluserRole(){
     }
