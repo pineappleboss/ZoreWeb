@@ -373,31 +373,31 @@ export default [
   //   ]
   // },
   {
-    path: '/multilevel',
-    name: 'multilevel',
+    path: '/sysManager',
+    name: '系统管理',
     meta: {
       icon: 'md-menu',
-      access :['userManager'],
-      title: '用户管理'
+      access :['AllManager'],
+      title: '系统管理'
     },
     component: Main,
     children: [
       {
-        path: 'level_2_1',
-        name: 'level_2_1',
+        path: 'bookManager',
+        name: '书',
         meta: {
           icon: 'md-funnel',
-          access:['editManager'],
+          access:['bookManager'],
           title: '书'
         },
         component: () => import('@/view/multilevel/level-2-1.vue')
       },
       {
-        path: 'level_2_3',
-        name: 'level_2_3',
+        path: 'UserManager',
+        name: '用户信息',
         meta: {
           icon: 'md-funnel',
-          access:['editManager'],
+          access:['UserManager'],
           title: '用户信息'
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
@@ -405,24 +405,24 @@ export default [
     ]
   },
   {
-    path: '/multilevel',
-    name: 'multilevel',
+    path: '/otherManager',
+    name: '其他',
     meta: {
       icon: 'md-menu',
-      access :['userManager'],
-      title: '用户管理'
+      access :['otherManager'],
+      title: '其他'
     },
     component: Main,
     children: [
       {
-        path: 'level_2_1',
-        name: 'level_2_1',
+        path: 'editManager',
+        name: '编辑管理',
         meta: {
           icon: 'md-funnel',
           access:['editManager'],
-          title: '书'
+          title: '编辑管理'
         },
-        component: () => import('@/view/multilevel/level-2-1.vue')
+        // component: () => import('@/view/multilevel/level-2-1.vue')
       },
     ]
   },
