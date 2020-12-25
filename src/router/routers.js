@@ -405,6 +405,28 @@ export default [
     ]
   },
   {
+    path: '/multilevel',
+    name: 'multilevel',
+    meta: {
+      icon: 'md-menu',
+      access :['userManager'],
+      title: '用户管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_2_1',
+        name: 'level_2_1',
+        meta: {
+          icon: 'md-funnel',
+          access:['editManager'],
+          title: '书'
+        },
+        component: () => import('@/view/multilevel/level-2-1.vue')
+      },
+    ]
+  },
+  {
     path: '/argu',
     name: 'argu',
     meta: {
