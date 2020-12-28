@@ -9,7 +9,7 @@
       </Row>
     </Card>
    <h1>更新记录</h1>
-      <Timeline v-for="item in timeline">
+      <Timeline v-for="item in timeline" :key="item.content">
           <TimelineItem >
             <card>
               <p class="time">{{item.time}}</p>
@@ -40,12 +40,24 @@ export default {
     return {  
        timeline:[
          {
-          time:'2011年10月5日',
+          time:'2020年10月2日',
+          content:'搭建框架'
+         },
+         {
+          time:'2020年10月3日',
+          content:'修改书籍详情'
+         },
+         {
+          time:'2020年10月5日',
           content:'新增文件上传'
          },
          {
-          time:'2011年10月5日',
-          content:'新增文件上传'
+          time:'2020年10月7日',
+          content:'修改UI界面'
+         },
+         {
+          time:'2020年12月5日',
+          content:'完善权限系统'
          }
        ] 
       
